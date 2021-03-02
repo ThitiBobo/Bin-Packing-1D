@@ -1,4 +1,4 @@
-package model
+package models
 
 class Bin(var sizeLimit: Int) {
 }

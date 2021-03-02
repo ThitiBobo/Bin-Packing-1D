@@ -1,15 +1,12 @@
-import model.BinPackingScenario
-import utils.fileReader
+import models.ScenarioManager
+import scenarios.Script1
 
 fun main(args: Array<String>) {
-    println("Hello World!")
+    println("--- Start ---")
 
-    var k = fileReader("ressources/data/binpack1d_00.txt")
-    val scenario = BinPackingScenario();
-    scenario.instantiate(k)
-    println("size : ${scenario.binSizeLimit}")
-    println("elements: ${scenario.itemList}")
+    val scenarioManager = ScenarioManager()
+    scenarioManager.folderPath = "ressources/data/"
+    scenarioManager.initialize()
 
-    println(scenario.getTheoreticalMinimumBinNumber())
-
+    scenarioManager.execute(Script1())
 }
