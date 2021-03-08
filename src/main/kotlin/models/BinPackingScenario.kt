@@ -14,9 +14,8 @@ class BinPackingScenario {
         itemList.drop(1).forEachIndexed { index, element -> this.itemList += Item(index, element.toInt()) }
     }
 
-    private fun getSumItemSize(): Int = itemList.sumBy { it.size }
+    fun getSumItemSize(): Int = itemList.sumBy { it.size }
 
-    fun getTheoreticalMinimumBinNumber(): Int = getSumItemSize() / binSizeLimit
 
     override fun toString(): String {
         return "BinPackingScenario(scenarioName='$scenarioName', binSizeLimit=$binSizeLimit, itemList=${itemList.contentToString()})"
