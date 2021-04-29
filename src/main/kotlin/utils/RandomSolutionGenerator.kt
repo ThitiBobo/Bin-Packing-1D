@@ -16,6 +16,7 @@ fun oneItemPerBinGenerator(items: Array<Item>, binSizeLimit: Int): List<Bin> {
     return binList.toList()
 }
 
-fun randomFirstFitGenerator() {
-    TODO()
+fun randomFirstFitGenerator(items: Array<Item>, binSizeLimit: Int): List<Bin> {
+    items.shuffle()
+    return firstFitDecreasingBase(items, binSizeLimit)
 }

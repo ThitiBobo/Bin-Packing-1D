@@ -3,16 +3,14 @@ package utils
 import models.Bin
 import models.Item
 
-fun firstFitDecreasing(items: Array<Item>, binSizeLimit: Int): List<Bin> {
+fun firstFitDecreasingBase(items: Array<Item>, binSizeLimit: Int): List<Bin> {
 
     val binList: MutableList<Bin> = mutableListOf()
     val notFullListBin: MutableList<Bin> = mutableListOf()
 
-    val itemsList = items.sortedByDescending { it.size }
-
     notFullListBin.add(Bin(binSizeLimit))
 
-    itemsList.forEach loop@{item ->
+    items.forEach loop@{item ->
         var packed = false
         notFullListBin.forEachIndexed{ index, bin ->
             if(bin.hasSpace(item)){
@@ -35,4 +33,9 @@ fun firstFitDecreasing(items: Array<Item>, binSizeLimit: Int): List<Bin> {
     }
 
     return binList.toList()
+}
+
+fun firstFitDecreasing(items: Array<Item>, binSizeLimit: Int): List<Bin> {
+    val itemsList = items.sortedByDescending { it.size }
+    return firstFitDecreasingBase(itemsList.toTypedArray(), binSizeLimit)
 }

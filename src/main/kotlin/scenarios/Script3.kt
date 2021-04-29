@@ -1,11 +1,24 @@
 package scenarios
 
-import interfaces.ExecutableScript
 import models.BinPackingScenario
+import scenarios.base.ScriptBase
 
-class Script3: ExecutableScript<BinPackingScenario> {
-    override fun execute(list: Array<BinPackingScenario>) {
-        TODO("Not yet implemented")
-        throw Exception("Exercise 3, not implemented  ")
+fun main(args: Array<String>) {
+
+    // INITIALISATION
+    println("[ Script 3 ]\n")
+    val script = ScriptBase()
+    val list = script.scenarioManager.scenarioList
+    // val answers:ArrayList<List<Bin>> = arrayListOf()
+    var timeAnswers: Array<Long> = arrayOf()
+
+    // OPERATION
+    val start = System.currentTimeMillis()
+    list.forEach {
+        val start2 = System.currentTimeMillis()
+
+
+        timeAnswers += System.currentTimeMillis() - start2
     }
+    val time = System.currentTimeMillis() - start
 }

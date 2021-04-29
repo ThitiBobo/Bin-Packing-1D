@@ -6,6 +6,22 @@ class BinPackingScenario {
     var binSizeLimit = 0
     var itemList : Array<Item> = arrayOf();
 
+    var x: Int = 4
+        get() = field
+        set(value){
+            field = value
+        }
+
+    var binList: ArrayList<Bin> = ArrayList()
+        set(value){
+            field = value
+            field.forEachIndexed{ index, bin ->
+                bin.list.forEach { item ->
+                    item.binNumber = index
+                }
+                bin.updateObjectiveValue()
+            }
+        }
 
     fun initialize(name: String, itemList: List<String>) {
         scenarioName = name
@@ -16,9 +32,21 @@ class BinPackingScenario {
 
     fun getSumItemSize(): Int = itemList.sumBy { it.size }
 
+    fun switchItem(item1: Int, item2: Int) {
+
+    }
+
+    fun moveItem(item: Int, newBin: Int) {
+        itemList[item].binNumber
+
+        if (newBin >= binList.size)
+            binList.add(Bin(binSizeLimit))
+
+    }
 
     override fun toString(): String {
-        return "BinPackingScenario(scenarioName='$scenarioName', binSizeLimit=$binSizeLimit, itemList=${itemList.contentToString()})"
+        return "BinPackingScenario(scenarioName='$scenarioName', binSizeLimit=$binSizeLimit, " +
+                "itemList=${itemList.contentToString()}, binList=${binList.toString()})"
     }
 
 

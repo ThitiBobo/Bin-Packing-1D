@@ -1,6 +1,5 @@
 package models
 
-import interfaces.ExecutableScript
 import utils.fileReader
 import utils.getAllFiles
 import java.lang.Exception
@@ -22,9 +21,5 @@ class ScenarioManager {
             scenario.initialize(it.toString(), file)
             this.scenarioList += scenario
         }
-    }
-
-    fun execute(script: ExecutableScript<BinPackingScenario>){
-        script.execute(scenarioList)
     }
 }
