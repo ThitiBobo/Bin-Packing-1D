@@ -2,6 +2,7 @@ import exceptions.OverloadedBinException
 import models.BinPackingScenario
 import models.Item
 import models.ScenarioManager
+import utils.combination
 
 import utils.randomFirstFitGenerator
 
@@ -34,6 +35,7 @@ fun main(args: Array<String>) {
     }
     display(scenario)
 
+    var tt = scenario.getAllNeighborhoodOperation()
 }
 
 

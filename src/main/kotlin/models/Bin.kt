@@ -27,9 +27,19 @@ class Bin(val sizeLimit: Int){
         return "Bin(sizeLimit=$sizeLimit, list=${list.toArray().contentToString()})"
     }
 
-    fun updateObjectiveValue() {
+    fun updateObjectiveValue(): Double {
         var value = list.map { it.size }.sum().toDouble()
-        objectiveValue = value.pow(2.0);
+        objectiveValue = value.pow(2.0)
+        return objectiveValue
+    }
+
+    fun clone(): Bin {
+        var bin = Bin(this.sizeLimit)
+        bin.objectiveValue = this.objectiveValue
+        this.list.forEach{
+            bin.add(it)
+        }
+        return bin
     }
 }
 

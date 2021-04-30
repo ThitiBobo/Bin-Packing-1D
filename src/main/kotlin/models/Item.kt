@@ -5,7 +5,7 @@ package models
  * @param id: item's id
  * @param size: item's size in 1D
  */
-class Item(private val id: Int, val size: Int) {
+class Item(val id: Int, val size: Int) {
 
     /**
      * bin number in which the item is located

@@ -1,4 +1,4 @@
 package models.operations
 
-interface Operation {
+open class Operation(val objectiveValue: Double) {
 }

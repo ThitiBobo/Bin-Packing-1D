@@ -2,5 +2,5 @@ package models.operations
 
 import models.Item
 
-class SwitchOperation(item1: Item, item2: Item): Operation {
+class SwitchOperation(objectiveValue: Double, val item1: Item, val item2: Item): Operation(objectiveValue) {
 }

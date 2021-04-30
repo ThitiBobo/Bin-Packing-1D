@@ -5,6 +5,7 @@ import models.operations.MoveOperation
 import models.operations.Operation
 import models.operations.SwitchOperation
 import org.apache.commons.math3.exception.OutOfRangeException
+import utils.combination
 import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
@@ -95,7 +96,7 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
         item2.bin!!.updateObjectiveValue()
         updateObjectiveValue()
 
-        this.operationHistory.add(SwitchOperation(item1,item2))
+        this.operationHistory.add(SwitchOperation(objectiveValue,item1,item2))
     }
 
     fun moveItem(item: Int, newBin: Int){
@@ -115,6 +116,7 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
     }
 
     fun moveItem(item: Item, newBin: Bin) {
+        // TODO if newBin isn't in binList >> do something
         if (!newBin.hasSpace(item)) {
             throw OverloadedBinException(item, newBin)
         }
@@ -136,11 +138,88 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
         oldBin?.updateObjectiveValue()
         updateObjectiveValue()
 
-        this.operationHistory.add(MoveOperation(item,newBin))
+        this.operationHistory.add(MoveOperation(objectiveValue,item,newBin))
     }
 
     fun updateObjectiveValue(){
         this.objectiveValue = this.binList.map { it.objectiveValue }.sum()
+    }
+
+    fun getAllNeighborhoodOperation(): List<Operation> {
+        var list: ArrayList<Operation> = ArrayList()
+        val switchList = getAllSwitchOperation()
+        val moveList = getAllMoveOperation()
+
+        list.addAll(switchList)
+        list.addAll(moveList)
+        return list
+    }
+
+    private fun getAllSwitchOperation(): List<SwitchOperation> {
+        var couple = combination(itemList)
+        var validOperation: ArrayList<SwitchOperation> = ArrayList()
+
+        couple.forEach{
+            if (it.first.bin == null || it.second.bin == null){
+                throw Exception()
+            }
+            if (it.first.size != it.second.size){
+
+                var binA = it.first.bin!!.clone()
+                var binB = it.second.bin!!.clone()
+
+                binA.list.remove(it.first)
+                binB.list.remove(it.second)
+
+                if (binA.hasSpace(it.second) && binB.hasSpace(it.first)) {
+                    binA.add(it.second)
+                    binB.add(it.first)
+
+                    val olbBinAObjectiveValue = it.first.bin!!.objectiveValue
+                    val olbBinBObjectiveValue = it.second.bin!!.objectiveValue
+
+                    val newBinAObjectiveValue = binA.updateObjectiveValue()
+                    val newBinBObjectiveValue = binB.updateObjectiveValue()
+
+                    val objectiveValue = this.objectiveValue -
+                            olbBinAObjectiveValue -
+                            olbBinBObjectiveValue +
+                            newBinAObjectiveValue +
+                            newBinBObjectiveValue
+
+                    validOperation.add(SwitchOperation(objectiveValue, it.first, it.second))
+                }
+            }
+        }
+        return validOperation
+    }
+
+    private fun getAllMoveOperation(): List<MoveOperation> {
+
+        var binList = ArrayList(this.binList)
+        binList.add(Bin(binSizeLimit))
+        var couple = combination(itemList, binList)
+        var validOperation: ArrayList<MoveOperation> = ArrayList()
+
+        couple.forEach{
+            if (it.first.bin == null) {
+                throw Exception()
+            }
+            if (it.first.bin != it.second){
+                var oldBin = it.first.bin!!.clone()
+                var newBin = it.second.clone()
+
+                if (newBin.hasSpace(it.first)) {
+                    val oldBinObjectiveValue = oldBin.objectiveValue
+                    oldBin.list.remove(it.first)
+                    newBin.add(it.first)
+                    val newBinObjectiveValue = newBin.updateObjectiveValue()
+                    val objectiveValue = this.objectiveValue - oldBinObjectiveValue + newBinObjectiveValue
+                    validOperation.add(MoveOperation(objectiveValue, it.first, it.second))
+                }
+            }
+        }
+        return validOperation
     }
 
     override fun toString(): String {
