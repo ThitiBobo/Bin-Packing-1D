@@ -15,4 +15,10 @@ class Item(val id: Int, val size: Int) {
     override fun toString(): String {
         return "Item(id=$id, size=$size)"
     }
+
+    fun clone(): Item{
+        var item: Item = Item(this.id, this.size)
+        item.bin = this.bin
+        return item
+    }
 }

@@ -5,6 +5,7 @@ import models.ScenarioManager
 import utils.combination
 
 import utils.randomFirstFitGenerator
+import utils.simulatedAnnealing
 
 const val FOLDER_PATH = "resources/data/"
 
@@ -25,17 +26,10 @@ fun main(args: Array<String>) {
         print(" ${item.size}")
     }
     println()
-
-    display(scenario)
-    try {
-        scenario.switchItem(3,7)
-    }catch (e: OverloadedBinException){
-        println(scenario.itemList[3].bin)
-        println(scenario.itemList[4].bin)
-    }
     display(scenario)
 
-    var tt = scenario.getAllNeighborhoodOperation()
+    simulatedAnnealing(scenario, 500.0, 100, 200, 0.90)
+    display(scenario)
 }
 
 
@@ -49,6 +43,6 @@ fun display(scenario: BinPackingScenario){
         println("] : ${bin.getOccupiedSpace()}   :   ${bin.objectiveValue}")
     }
     println()
-    println("${scenario.objectiveValue} : ${scenario.originalBinList.size}")
+    println("${scenario.objectiveValue} : ${scenario.binList.size}")
     println()
 }

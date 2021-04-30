@@ -19,7 +19,7 @@ class Bin(val sizeLimit: Int){
 
     fun add(item: Item){
         if(!hasSpace(item))
-            throw Exception("not enough space to put the item")
+            throw Exception("not enough space to put the item, ${this.sizeLimit} : ${this.getRemainingSpace()} : ${item.size}")
         list.add(item)
     }
 
@@ -37,7 +37,9 @@ class Bin(val sizeLimit: Int){
         var bin = Bin(this.sizeLimit)
         bin.objectiveValue = this.objectiveValue
         this.list.forEach{
-            bin.add(it)
+            var item = it.clone()
+            bin.add(item)
+            item.bin = bin
         }
         return bin
     }
