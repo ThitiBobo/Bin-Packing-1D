@@ -3,7 +3,7 @@ package utils
 import models.Bin
 import models.Item
 
-fun firstFitDecreasingBase(items: Array<Item>, binSizeLimit: Int): List<Bin> {
+fun firstFitDecreasingBase(items: List<Item>, binSizeLimit: Int): List<Bin> {
 
     val binList: MutableList<Bin> = mutableListOf()
     val notFullListBin: MutableList<Bin> = mutableListOf()
@@ -35,7 +35,7 @@ fun firstFitDecreasingBase(items: Array<Item>, binSizeLimit: Int): List<Bin> {
     return binList.toList()
 }
 
-fun firstFitDecreasing(items: Array<Item>, binSizeLimit: Int): List<Bin> {
+fun firstFitDecreasing(items: List<Item>, binSizeLimit: Int): List<Bin> {
     val itemsList = items.sortedByDescending { it.size }
-    return firstFitDecreasingBase(itemsList.toTypedArray(), binSizeLimit)
+    return firstFitDecreasingBase(itemsList, binSizeLimit)
 }

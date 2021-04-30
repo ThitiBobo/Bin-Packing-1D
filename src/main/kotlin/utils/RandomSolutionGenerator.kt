@@ -3,12 +3,13 @@ package utils
 import models.Bin
 import models.Item
 
-fun oneItemPerBinGenerator(items: Array<Item>, binSizeLimit: Int): List<Bin> {
+fun oneItemPerBinGenerator(items: List<Item>, binSizeLimit: Int): List<Bin> {
 
     val binList :MutableList<Bin> = mutableListOf()
-    items.shuffle()
+    var array = ArrayList(items)
+    array.shuffle()
 
-    items.forEach {
+    array.forEach {
         binList.add(Bin(binSizeLimit))
         binList.last().add(it)
     }
@@ -16,7 +17,8 @@ fun oneItemPerBinGenerator(items: Array<Item>, binSizeLimit: Int): List<Bin> {
     return binList.toList()
 }
 
-fun randomFirstFitGenerator(items: Array<Item>, binSizeLimit: Int): List<Bin> {
-    items.shuffle()
-    return firstFitDecreasingBase(items, binSizeLimit)
+fun randomFirstFitGenerator(items: List<Item>, binSizeLimit: Int): List<Bin> {
+    var array = ArrayList(items)
+    array.shuffle()
+    return firstFitDecreasingBase(array, binSizeLimit)
 }

@@ -1,7 +1,6 @@
 package scenarios
 
 import models.Bin
-import models.BinPackingScenario
 import scenarios.base.ScriptBase
 import utils.firstFitDecreasing
 

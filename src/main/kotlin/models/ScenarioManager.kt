@@ -12,13 +12,11 @@ class ScenarioManager {
     fun initialize(){
         if (folderPath == null)
             throw Exception("folderPath can't be undefined, null")
-        // TODO i don't like !! notation
         val list = getAllFiles(folderPath!!).sorted()
 
         list.forEach {
             val file = fileReader(it.toString())
-            var scenario = BinPackingScenario()
-            scenario.initialize(it.toString(), file)
+            var scenario = BinPackingScenario(it.toString(), file)
             this.scenarioList += scenario
         }
     }

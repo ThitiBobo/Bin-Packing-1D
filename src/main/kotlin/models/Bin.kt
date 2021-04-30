@@ -7,7 +7,7 @@ class Bin(val sizeLimit: Int){
 
     var objectiveValue: Double = 0.0
 
-    var list: Array<Item> = arrayOf()
+    var list: ArrayList<Item> = ArrayList()
 
     fun getOccupiedSpace() = list.sumOf { it.size }
     private fun getRemainingSpace() = sizeLimit - getOccupiedSpace()
@@ -20,11 +20,11 @@ class Bin(val sizeLimit: Int){
     fun add(item: Item){
         if(!hasSpace(item))
             throw Exception("not enough space to put the item")
-        list += item
+        list.add(item)
     }
 
     override fun toString(): String {
-        return "Bin(sizeLimit=$sizeLimit, list=${list.contentToString()})"
+        return "Bin(sizeLimit=$sizeLimit, list=${list.toArray().contentToString()})"
     }
 
     fun updateObjectiveValue() {

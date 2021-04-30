@@ -10,9 +10,9 @@ class Item(private val id: Int, val size: Int) {
     /**
      * bin number in which the item is located
      */
-    var binNumber : Int? = null
+    var bin : Bin? = null
 
     override fun toString(): String {
-        return "Item(binNumber=$binNumber, size=$size)"
+        return "Item(id=$id, size=$size)"
     }
 }

@@ -1,6 +1,8 @@
+import exceptions.OverloadedBinException
+import models.BinPackingScenario
+import models.Item
 import models.ScenarioManager
 
-import utils.firstFitDecreasing
 import utils.randomFirstFitGenerator
 
 const val FOLDER_PATH = "resources/data/"
@@ -15,8 +17,27 @@ fun main(args: Array<String>) {
 
 
     var scenario = scenarioManager.scenarioList[0];
-    scenario.binList = ArrayList(randomFirstFitGenerator(scenario.itemList,scenario.binSizeLimit))
+    var list : List<Item> = ArrayList(scenario.itemList)
+    scenario.initialize(ArrayList(randomFirstFitGenerator(list, scenario.binSizeLimit)))
 
+    scenario.itemList.forEach { item ->
+        print(" ${item.size}")
+    }
+    println()
+
+    display(scenario)
+    try {
+        scenario.switchItem(3,7)
+    }catch (e: OverloadedBinException){
+        println(scenario.itemList[3].bin)
+        println(scenario.itemList[4].bin)
+    }
+    display(scenario)
+
+}
+
+
+fun display(scenario: BinPackingScenario){
     var binList = scenario.binList
     binList.forEach { bin ->
         print("[ ")
@@ -26,9 +47,6 @@ fun main(args: Array<String>) {
         println("] : ${bin.getOccupiedSpace()}   :   ${bin.objectiveValue}")
     }
     println()
-
-    scenario.itemList.forEach { item ->
-        println(item)
-    }
-
+    println("${scenario.objectiveValue} : ${scenario.originalBinList.size}")
+    println()
 }
