@@ -24,7 +24,7 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
         private set
     var originalBinList: List<Bin> = ArrayList()
         private set
-    var bestBinList: List<Bin> = ArrayList()
+    var bestBinList: ArrayList<Bin> = ArrayList()
         private set
 
     var operationHistory: LinkedList<Operation> = LinkedList()
@@ -76,12 +76,8 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
             throw Exception("items must be in bin ")
         }
         // REMOVE ITEMS
-        if (item1.bin!!.list.remove(item1)==false){
-            print("")
-        }
-        if (item2.bin!!.list.remove(item2)==false){
-            print("")
-        }
+        item1.bin!!.list.remove(item1)
+        item2.bin!!.list.remove(item2)
         // CHECK SPACE
         try {
             if (!item1.bin!!.hasSpace(item2)) throw OverloadedBinException(item1, item2.bin!!)
@@ -132,14 +128,7 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
         val oldBin = item.bin
 
         // MOVE ITEM
-
-        if (item.bin == null){
-            print("wala")
-        }
-
-        if (oldBin?.list?.remove(item) == false){
-            print("")
-        }
+        oldBin?.list?.remove(item)
         newBin.list.add(item)
         item.bin = newBin
 
@@ -155,25 +144,12 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
         updateObjectiveValue()
 
         this.operationHistory.add(MoveOperation(objectiveValue,item,newBin))
-
-
-        if (this.binList.map { it.list.size }.sum() > 24) {
-            println("merde")
-        }
     }
 
     fun getAllNeighborhoodOperation(): List<Operation> {
         var list: ArrayList<Operation> = ArrayList()
         val switchList = getAllSwitchOperation()
         val moveList = getAllMoveOperation()
-
-
-        moveList.forEach{
-            if (it.item.bin!!.list.contains(it.item) == false){
-                println("problème ici")
-            }
-        }
-
 
         list.addAll(switchList)
         list.addAll(moveList)
@@ -252,27 +228,16 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
     }
 
     fun updateBestScenario(){
-        this.bestBinList = ArrayList(binList)
-        this.bestObjectiveValue = this.objectiveValue
-
-        var binList = bestBinList
-        binList.forEach { bin ->
-            print("[ ")
-            bin.list.forEach {
-                print("${it.size} ")
-            }
-            println("] : ${bin.getOccupiedSpace()}   :   ${bin.objectiveValue}")
+        this.bestBinList = ArrayList()
+        binList.forEach{
+            this.bestBinList.add(it.clone())
         }
-        println()
-        println("${this.bestObjectiveValue} : ${this.bestBinList.size}")
-        println()
-
+        this.bestObjectiveValue = this.objectiveValue
     }
 
     override fun toString(): String {
         return "BinPackingScenario(scenarioName='$scenarioName', binSizeLimit=$binSizeLimit, " +
                 "itemList=${itemList.toArray().contentToString()}, binList=${binList.toString()})"
     }
-
 
 }

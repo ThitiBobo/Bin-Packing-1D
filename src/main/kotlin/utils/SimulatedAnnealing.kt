@@ -37,7 +37,6 @@ fun simulatedAnnealing(scenario: BinPackingScenario, tinit: Double, nmax: Int, k
                     if (neighborhood is SwitchOperation) { scenario.switchItem(neighborhood.item1, neighborhood.item2) }
                 }
             }
-
             i++
         }
         t *= mu
