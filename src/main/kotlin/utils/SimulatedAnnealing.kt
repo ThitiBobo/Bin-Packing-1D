@@ -4,6 +4,7 @@ import models.BinPackingScenario
 import models.operations.MoveOperation
 import models.operations.Operation
 import models.operations.SwitchOperation
+import scenarios.display
 import java.util.ArrayList
 import kotlin.math.exp
 import kotlin.random.Random
@@ -38,6 +39,8 @@ fun simulatedAnnealing(scenario: BinPackingScenario, tinit: Double, nmax: Int, k
                 }
             }
             i++
+            println(n.toString() + " " + k.toString())
+            display(scenario.originalBinList, scenario.originalObjectiveValue)
         }
         t *= mu
     }
