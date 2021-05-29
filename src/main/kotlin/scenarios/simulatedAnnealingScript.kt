@@ -23,7 +23,7 @@ fun main() {
     var scenario = list[0]
 
     var itemList : List<Item> = ArrayList(scenario.itemList)
-    scenario.initialize( ArrayList(randomFirstFitGenerator(itemList, scenario.binSizeLimit)) )
+    scenario.initialize( ArrayList(oneItemPerBinGenerator(itemList, scenario.binSizeLimit)) )
 
     display(scenario.originalBinList, scenario.originalObjectiveValue)
     simulatedAnnealing(scenario, T_INIT, N_MAX, K_MAX, MU)

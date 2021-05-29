@@ -47,10 +47,21 @@ class BinPackingScenario(scenarioName: String, itemList: List<String>) {
         this.objectiveValue = this.originalBinList.map { it.objectiveValue }.sum()
 
         this.binList = binList
-        this.originalBinList = ArrayList(binList)
-        this.bestBinList = ArrayList(binList)
 
-        updateObjectiveValue()
+
+
+        this.originalBinList = arrayListOf();
+        binList.forEach{
+            this.originalBinList += it.clone();
+        }
+
+
+        this.bestBinList = arrayListOf();
+        binList.forEach {
+            this.bestBinList.add(it.clone());
+        }
+
+            updateObjectiveValue()
         this.originalObjectiveValue = this.objectiveValue
         this.bestObjectiveValue = this.objectiveValue
     }
